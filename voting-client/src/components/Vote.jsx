@@ -1,20 +1,17 @@
-import React from 'react';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
+import React ,{PureComponent} from 'react';
 
-var createReactClass= require('create-react-class');
 
-export default createReactClass({
-    mixins: [PureRenderMixin],
-    getPair: function() {
+export default class Vote extends PureComponent{
+    getPair() {
         return this.props.pair || [];
-    },
-    isDisabled: function() {
+    }
+    isDisabled() {
         return !!this.props.hasVoted;
-    },
-    hasVotedFor: function(entry) {
+    }
+    hasVotedFor(entry) {
         return this.props.hasVoted === entry;
-    },
-    render: function() {
+    }
+    render() {
         return <div className="voting">
         {this.getPair().map(entry =>
             <button key={entry}
@@ -28,4 +25,4 @@ export default createReactClass({
         )}
         </div>;
     }
-});
+};

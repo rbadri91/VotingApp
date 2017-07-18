@@ -7,7 +7,7 @@ import {renderIntoDocument,
 from 'react-addons-test-utils';
 
 import {List, Map} from 'immutable'
-import Results from '../../src/components/Results';
+import {Results} from '../../src/components/Results';
 import {expect} from 'chai';
 
 describe('Results',() =>{
@@ -50,4 +50,5 @@ describe('Results',() =>{
         expect(winner).to.be.ok;
         expect(winner.textContent).to.contain('Trainspotting');
     });
+    
 })

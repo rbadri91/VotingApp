@@ -1,12 +1,12 @@
 import React,{ PureComponent } from 'react';
 import Winner from './Winner';
+import VoteCount from './VoteCount';
+import Next from './Next';
+import {connect} from 'react-redux';
 
-export default class Results extends PureComponent{
-    
-    getPair(){
-        return(
-            this.props.pair || []
-        )
+export class Results extends PureComponent{
+    getPair() {
+        return this.props.pair || [];
     }
     getVotes(entry){
         if(this.props.tally && this.props.tally.has(entry)) {
@@ -17,23 +17,40 @@ export default class Results extends PureComponent{
     render(){
         return( this.props.winner ?
         <Winner ref ="winner" winner = {this.props.winner} />:
-            <div className = "results">
-            <div className="tally">
-            {this.getPair().map(entry =>
-                <div key={entry} className="entry">
-                        <h1>{entry}</h1>
-                        <div className="voteCount">
-                             {this.getVotes(entry)}
-                        </div>
-                </div>
-            )}
-            </div>
+        <div className = "results">
+            <VoteCount {...this.props}/>
             <div className ="management">
-                 <button ref="next" className="next" onClick={this.props.next}>
-                 Next</button>
-            </div>
-            </div>
+              <button ref="next" className="next" onClick={this.props.next}>
+                        Next</button>
+              </div>
+        </div>
+        // <div className = "results">
+        //             <div className="tally">
+        //             {this.getPair().map(entry =>
+        //                 <div key={entry} className="entry">
+        //                         <h1>{entry}</h1>
+        //                         <div className="voteCount">
+        //                             {this.getVotes(entry)}
+        //                         </div>
+        //                 </div>
+        //             )}
+        //             </div>
+        //             <div className ="management">
+        //                 <button ref="next" className="next" onClick={this.props.next}>
+        //                 Next</button>
+        //             </div>
+        // </div>
         );
     }
 
 }
+
+function mapStateToProps(state) {
+  return {
+    pair: state.getIn(['vote', 'pair']),
+    tally: state.getIn(['vote', 'tally']),
+    winner: state.get('winner')
+  }
+}
+
+export const ResultsContainer = connect(mapStateToProps)(Results);
