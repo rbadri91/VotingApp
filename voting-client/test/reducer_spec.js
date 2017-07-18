@@ -67,6 +67,7 @@ describe('reducer', () => {
     it('handles VOTE by setting hasVoted', () => {
         const state = fromJS({
             vote: {
+                round: 15
                 pair: ['Trainspotting', '28 Days Later'],
                 tally: { Trainspotting: 1 }
             }
@@ -82,13 +83,17 @@ describe('reducer', () => {
                 pair: ['Trainspotting', '28 Days Later'],
                 tally: { Trainspotting: 1 }
             },
-            hasVoted: 'Trainspotting'
+            myVote: {
+                round: 15,
+                entry: 'Trainspotting'
+            }
         }));
     })
 
     it('does not set hasVoted for VOTE on invalid entry', () => {
         const state = fromJS({
             vote: {
+                round: 15,
                 pair: ['Trainspotting', '28 Days Later'],
                 tally: { Trainspotting: 1 }
             }
@@ -97,6 +102,7 @@ describe('reducer', () => {
         const nextState = reducer(state, action);
         expect(nextState).to.equal(fromJS({
             vote: {
+                round: 15,
                 pair: ['Trainspotting', '28 Days Later'],
                 tally: { Trainspotting: 1 }
             }
@@ -106,15 +112,20 @@ describe('reducer', () => {
     it('removes hasVoted on SET_STATE if pair changes', () => {
         const initialState = fromJS({
             vote: {
+                round: 15,
                 pair: ['Trainspotting', '28 Days Later'],
                 tally: { Trainspotting: 1 }
             },
-            hasVoted: 'Trainspotting'
+            myVote: {
+                round: 15,
+                entry: 'Trainspotting'
+            }
         });
         const action = {
             type: 'SET_STATE',
             state: {
                 vote: {
+                    round: 16,
                     pair: ['Sunshine', 'Slumdog Millionaire']
                 }
             }
@@ -123,6 +134,7 @@ describe('reducer', () => {
         const nextState = reducer(initialState, action);
         expect(nextState).to.equal(fromJS({
             vote: {
+                round: 16,
                 pair: ['Sunshine', 'Slumdog Millionaire']
             }
         }));

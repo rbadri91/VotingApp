@@ -1,3 +1,4 @@
+/*jshint esversion: 6 */
 import { List, Map } from 'immutable';
 
 function setState(state, newState) {
@@ -6,8 +7,12 @@ function setState(state, newState) {
 
 function vote(state, entry) {
     const currentPair = state.getIn(['vote', 'pair']);
+    var currentRound = state.getIn(['vote', 'round']);
     if (currentPair && currentPair.includes(entry)) {
-        return state.set('hasVoted', entry);
+        return state.set('myVote', Map({
+            round: currentRound,
+            entry
+        }));
     } else {
         return state;
     }
@@ -16,8 +21,10 @@ function vote(state, entry) {
 function resetVote(state) {
     const hasVoted = state.get('hasVoted');
     const currentPair = state.getIn(['vote', 'pair'], List());
-    if (hasVoted && !currentPair.includes(hasVoted)) {
-        return state.remove('hasVoted');
+    const votedForRound = state.getIn(['myVote', 'round']);
+    const currentRound = state.getIn(['vote', 'round']);
+    if (votedForRound != currentRound) {
+        return state.remove('myVote');
     } else {
         return state;
     }

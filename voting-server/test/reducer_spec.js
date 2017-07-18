@@ -23,6 +23,7 @@ describe('reducer', () => {
 
         expect(nextState).to.equal(fromJS({
             vote: {
+                round: 1,
                 pair: ['Trainspotting', '28 Days Later']
             },
             entries: []
@@ -47,8 +48,24 @@ describe('reducer', () => {
                 }
             },
             entries: []
-        }))
+        }));
 
+    });
+    it('fails when ambigious entry is voted', () => {
+        const initialState = fromJS({
+            vote: {
+                pair: ['Trainspotting', '28 Days Later']
+            },
+            entries: []
+        });
+        const action = { type: 'VOTE', entry: 'Sunshine' }
+        const nextState = reducer(initialState, action);
+        expect(nextState).to.equal(fromJS({
+            vote: {
+                pair: ['Trainspotting', '28 Days Later']
+            },
+            entries: []
+        }));
     });
     it('has an initial State', () => {
         const action = { type: 'SET_ENTRIES', entries: ['Trainspotting'] };
