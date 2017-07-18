@@ -3,6 +3,7 @@ import Winner from './Winner';
 import VoteCount from './VoteCount';
 import Next from './Next';
 import {connect} from 'react-redux';
+import * as actionCreators from '../action_creators';
 
 export class Results extends PureComponent{
     getPair() {
@@ -53,4 +54,4 @@ function mapStateToProps(state) {
   }
 }
 
-export const ResultsContainer = connect(mapStateToProps)(Results);
+export const ResultsContainer = connect(mapStateToProps,actionCreators)(Results);
